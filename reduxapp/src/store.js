@@ -1,5 +1,5 @@
 import { createStore } from 'redux';
-import { ADD_TASK, DELETE_TASK, COMPLETE_TASK } from './actions/taskActions';
+import { ADD_TASK, DELETE_TASK, COMPLETE_TASK,UPDATE_TASK } from './actions/taskActions';
 
 
 // Initial state
@@ -40,6 +40,20 @@ const tasksReducer = (state = initialState, action) => {
           return task;
         }),
       };
+    case UPDATE_TASK:
+      return {
+        ...state,
+        tasks: state.tasks.map((task) => {
+          if (task.id === action.payload.id) {
+            return {
+              ...task,
+              text:action.payload.text,
+            };
+          }
+          return task;
+        }),
+      };
+      
     default:
       return state;
   }
