@@ -2,6 +2,7 @@ import { createStore } from 'redux';
 import { ADD_TASK, DELETE_TASK, COMPLETE_TASK,UPDATE_TASK } from './actions/taskActions';
 
 
+
 // Initial state
 const initialState = {
     tasks: [
