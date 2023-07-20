@@ -6,7 +6,8 @@ const initialState = {
   
   const tasksReducer = (state = initialState, action) => {
     // TODO: Implement the reducer logic
-  };
+
+}
   
   export default tasksReducer;
   
