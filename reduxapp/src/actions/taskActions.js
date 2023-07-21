@@ -3,8 +3,35 @@ export const ADD_TASK = 'ADD_TASK';
 export const DELETE_TASK = 'DELETE_TASK';
 export const COMPLETE_TASK = 'COMPLETE_TASK';
 export const UPDATE_TASK = 'UPDATE_TASK';
+export const Fetch_TASK = 'Fetch_TASK';
+
 
 // Action creators
+// actions/taskActions.js
+export const fetchTask = () => (dispatch) => {
+	const url = 'https://moviesdatabase.p.rapidapi.com/actors';
+	const options = {
+	  method: 'GET',
+	  headers: {
+		'X-RapidAPI-Key': 'f5d71df5eemshaeb335e568d0431p15570bjsn717097bc26d2',
+		'X-RapidAPI-Host': 'moviesdatabase.p.rapidapi.com',
+	  },
+	};
+  
+	fetch(url, options)
+	  .then((response) => response.json())
+	  .then((data) => {
+		// Assuming the API response returns an array of tasks
+		dispatch({ type: Fetch_TASK, payload: data });
+		console.log("Data from API",data);
+	  })
+	  .catch((error) => {
+		// Handle the error if the API call fails
+		console.error(error);
+	  });
+  };
+  
+
 export const addTask = (task) => ({
   type: ADD_TASK,
   payload: task,

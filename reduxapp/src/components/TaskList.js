@@ -1,15 +1,17 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import { connect } from 'react-redux';
-import { deleteTask, completeTask,addTask,updateTask } from '../actions/taskActions';
+import { deleteTask, completeTask,addTask,updateTask,fetchTask } from '../actions/taskActions';
 import TaskItem from './TaskItem';
 
-const TaskList = ({ tasks, deleteTask, completeTask,addTask,updateTask}) => {
+const TaskList = ({ tasks, deleteTask, completeTask,addTask,updateTask,fetchTask}) => {
 
   const [newTaskText, setNewTaskText] = useState('');
+  useEffect(() => {
+    fetchTask();
+  }, [fetchTask]);
 
-    
-    console.log("Tasks:",tasks);
-    console.log("Update Task:",updateTask);
+    // console.log("Tasks:",tasks);
+    // console.log("Update Task:",updateTask);
     
     // Generate random English task names
     const generateTaskName = () => {
@@ -31,11 +33,22 @@ const TaskList = ({ tasks, deleteTask, completeTask,addTask,updateTask}) => {
         setNewTaskText('');
       }
     };
+    if (!tasks.results) {
+      return <div>Loading...</div>;
+    }
     
     return (
     <div>
+      <h1>Task List</h1>
+      <div>
       <ul>
-        {tasks.map((task) => (
+        {tasks.results.map((task) => (
+          <li key={task._id}>{task.primaryName}</li>
+        ))}
+      </ul>
+    </div>
+     <ul>
+        {tasks.results.map((task) => (
           <TaskItem
             key={task.id}
             task={task}
@@ -64,4 +77,4 @@ const mapStateToProps = (state) => ({
   tasks: state.tasks,
 });
 
-export default connect(mapStateToProps, { deleteTask, completeTask,addTask,updateTask })(TaskList);
+export default connect(mapStateToProps, { deleteTask, completeTask,addTask,updateTask,fetchTask })(TaskList);

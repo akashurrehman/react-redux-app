@@ -1,16 +1,17 @@
-import { createStore } from 'redux';
-import { ADD_TASK, DELETE_TASK, COMPLETE_TASK,UPDATE_TASK } from './actions/taskActions';
+import { createStore,applyMiddleware  } from 'redux';
+import thunk from 'redux-thunk';
+import { ADD_TASK, DELETE_TASK, COMPLETE_TASK,UPDATE_TASK,Fetch_TASK } from './actions/taskActions';
 
 
 
-// Initial state
+
 const initialState = {
-    tasks: [
-      { id: 1, text: 'Task 1', completed: false },
-      { id: 2, text: 'Task 2', completed: true },
-      { id: 3, text: 'Task 3', completed: false },
-    ],
-  };
+  tasks: {
+    results: [], // tasks should be initialized with an empty array for results
+  },
+};
+
+
   
 
 // Reducer function
@@ -28,6 +29,12 @@ const tasksReducer = (state = initialState, action) => {
         ...state,
         tasks: state.tasks.filter((task) => task.id !== action.payload),
       };
+
+    case Fetch_TASK:
+    return {
+      ...state,
+      tasks: action.payload,
+    };
     case COMPLETE_TASK:
       return {
         ...state,
@@ -62,6 +69,6 @@ const tasksReducer = (state = initialState, action) => {
 
 
 // Create the Redux store
-const store = createStore(tasksReducer);
+const store = createStore(tasksReducer,applyMiddleware(thunk));
 
 export default store;
